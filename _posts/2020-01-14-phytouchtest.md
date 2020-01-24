@@ -7,7 +7,7 @@ PhyTouch是由腾讯开发的一个触碰滑动管理库。具体可以参见 [P
 我是参照[PhyTouch Simple](http://alloyteam.github.io/PhyTouch/example/simple.html)写的一个demo，做一个在页面中部滚动的列表。
 ![PhyTouch simple](/images/PhyTouchTest/PhyTouch-Simple.png)
 
-可以通过查看上面的源码来看看页面结构。一个wrapper包住scroller,里面是一个列表。scroller有一个transform属性，但overflow-y没有scroll属性。
+可以通过查看上面的源码来看看页面结构。一个wrapper包住scroller,里面是一个列表。scroller有一个transform属性，但overflow-y没有scroll属性, wrapper则是overflow:hidden。
 ![Sourc1](/images/PhyTouchTest/Sourc1.png)
 
 当我们滑动页面的时候，再次看页面变化。scroller的transform值发生变化。而scroller也没有y轴的scroll属性，因此可以推断是通过检测滑动变化更新transofrm属性达到滑动的效果。
@@ -44,4 +44,90 @@ PhyTouch是由腾讯开发的一个触碰滑动管理库。具体可以参见 [P
 
     </script>
 ```
-因此通过注入transform属性， PhyTouch在检测运动变化的时候，更新transform属性。在上面的代码中由几个常量值，window.innerHeight - 45 - 48 - 2000，它们的意义如下，
+因此通过注入transform属性， PhyTouch在检测运动变化的时候，更新transform属性。在上面的代码中由几个常量值，window.innerHeight - 45 - 48 - 2000，可以通过下面的截图看到其中的意义。2000就是滚动部分的高度，45 48就是对应的top和bottom。当scroller滚动到底部的时候transform的值就是window.innerHeight - 45 - 48 - 2000
+![Source4](/images/PhyTouchTest/Source4.png)
+
+## 实现
+因此基于上面的分析使用下面的代码来做demo。
+```vue
+<template>
+    <div style="overflow:hidden;">
+        <div style="width:100%;font-size:40px;line-height:48px;color:green;">
+            滚动条展示
+        </div>
+        <div :style="styleOpt" id="listwrapper" class="listwrapper">
+            <div class="list" id="list">
+                <div v-for="(item,index) in list" :key="index" class="item">
+                    {{item}}
+                </div>
+            </div>
+        </div>
+        <div style="width:100%;font-size:40px;line-height:48px;border-bottom: solid 1px;color:green;">
+            底部条展示
+        </div>
+    </div>
+</template>
+<script lang="ts">
+    import { Vue, Component } from "vue-property-decorator"
+    const PhyTouch = require("phy-touch")
+    const Transform = require("css3transform")
+
+    @Component({ name: "App" })
+    export default class App extends Vue{
+        list: string[] = []
+        styleOpt: any = { "height": "0" }
+        bindTouch() {
+            var target = <HTMLElement>document.getElementById("list")
+            Transform(target, true)
+            var phy = new PhyTouch({
+                touch:"#listwrapper",//反馈触摸的dom
+                vertical: true,//不必需，默认是true代表监听竖直方向touch
+                target: target, //运动的对象
+                property: "translateY",  //被滚动的属性
+                sensitivity: 1,//不必需,触摸区域的灵敏度，默认值为1，可以为负数
+                factor: 1,//不必需,默认值是1代表touch区域的1px的对应target.y的1
+                min: window.innerHeight - 48 - 48 - target.scrollHeight, //不必需,滚动属性的最小值
+                max: 0, //不必需,滚动属性的最大值
+                step: 40
+            })
+        }
+
+        mounted() {
+            for (var i = 0; i < 25; ++i) {
+                this.list.push("row" + i.toString())
+            }
+
+            this.styleOpt["height"] = (window.innerHeight - 96).toString() + "px"
+            document.body.addEventListener("touchmove", function (evt) {
+                evt.preventDefault();
+            }, false);
+            Vue.nextTick(() => {
+                this.bindTouch()
+            })
+        }
+    }
+</script>
+<style scoped lang="scss">
+    .listwrapper {
+        background:#ccc;
+        overflow:hidden;
+    }
+
+    .list {
+        width:100%;
+    }
+
+    .item {
+        line-height: 40px;
+        font-size:32px;
+        border-bottom-width:1px;
+        border-bottom-color:black;
+        border-bottom-style:solid;
+    }
+</style>
+```
+
+## repo
+完整的demo repo可以参见[PhyTouchTest](https://github.com/codetest/PhyTouchTest)
+
+[回到主页](https://codetest.github.io/)
