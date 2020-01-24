@@ -44,11 +44,77 @@ PhyTouch是由腾讯开发的一个触碰滑动管理库。具体可以参见 [P
 
     </script>
 ```
-因此通过注入transform属性， PhyTouch在检测运动变化的时候，更新transform属性。在上面的代码中由几个常量值，window.innerHeight - 45 - 48 - 2000，可以通过下面的截图看到其中的意义。2000就是滚动部分的高度，45 48就是对应的top和bottom。当scroller滚动到底部的时候transform的值就是window.innerHeight - 45 - 48 - 2000
+在Transform函数里面，可以看到对target使用observe进行属性监控。在observe的回调里面，通过matric计算更新style的transform属性。因此只要通过函数更新target的translateX, translateY等属性，就触发回调更新style的transform。
+```js
+    function Transform(obj, notPerspective) {
+        if(obj.___mixCSS3Transform) return;
+        var observeProps = ["translateX", "translateY", "translateZ", "scaleX", "scaleY", "scaleZ", "rotateX", "rotateY", "rotateZ", "skewX", "skewY", "originX", "originY", "originZ"],
+            objIsElement = isElement(obj);
+        if (!notPerspective) {
+            observeProps.push("perspective");
+        }
+        obj.___mixCSS3Transform = true
+        observe(
+            obj,
+            observeProps,
+            function () {
+                var mtx = obj.matrix3d.identity().appendTransform(obj.translateX, obj.translateY, obj.translateZ, obj.scaleX, obj.scaleY, obj.scaleZ, obj.rotateX, obj.rotateY, obj.rotateZ, obj.skewX, obj.skewY, obj.originX, obj.originY, obj.originZ);
+                var transform = (notPerspective ? "" : "perspective(" + obj.perspective + "px) ") + "matrix3d(" + Array.prototype.slice.call(mtx.elements).join(",") + ")";
+                if (objIsElement) {
+                    obj.style.transform = obj.style.msTransform = obj.style.OTransform = obj.style.MozTransform = obj.style.webkitTransform = transform;
+                } else {
+                    obj.transform = transform;
+                }
+            });
+
+        obj.matrix3d = new Matrix3D();
+        if (!notPerspective) {
+            obj.perspective = 500;
+        }
+        obj.scaleX = obj.scaleY = obj.scaleZ = 1;
+        //由于image自带了x\y\z，所有加上translate前缀
+        obj.translateX = obj.translateY = obj.translateZ = obj.rotateX = obj.rotateY = obj.rotateZ = obj.skewX = obj.skewY = obj.originX = obj.originY = obj.originZ = 0;
+    }
+```
+
+在PhyTouch的index.js里面有以下的对target的属性更新。
+```js
+        _move: function (evt) {
+            if (this.isTouchStart) {
+                var len = evt.touches.length,
+                    currentX = evt.touches[0].pageX,
+                    currentY = evt.touches[0].pageY;
+
+                if (this._firstTouchMove && this.lockDirection) {
+                    var dDis = Math.abs(currentX - this.x1) - Math.abs(currentY - this.y1);
+                    if (dDis > 0 && this.vertical) {
+                        this._preventMove = true;
+                    } else if (dDis < 0 && !this.vertical) {
+                        this._preventMove = true;
+                    }
+                    this._firstTouchMove = false;
+                }
+                if(!this._preventMove) {
+                    var d = (this.vertical ? currentY - this.preY : currentX - this.preX) * this.sensitivity;
+                    var f = this.moveFactor;
+                    if (this.isAtMax() && (this.reverse ? -d : d) > 0) {
+                        f = this.outFactor;
+                    } else if (this.isAtMin() && (this.reverse ? -d : d) < 0) {
+                        f = this.outFactor;
+                    }
+                    d *= f;
+                    this.preX = currentX;
+                    this.preY = currentY;
+                    if (!this.fixed) {
+                        var detalD = this.reverse ? -d : d;
+                        this.target[this.property] += detalD;
+```
+
+因此简单理解就是，通过注入transform属性， PhyTouch在检测运动变化的时候，更新transform属性。在上面的代码中由几个常量值，window.innerHeight - 45 - 48 - 2000，可以通过下面的截图看到其中的意义。2000就是滚动部分的高度，45 48就是对应的top和bottom。当scroller滚动到底部的时候transform的值就是window.innerHeight - 45 - 48 - 2000
 ![Source4](/images/PhyTouchTest/Source4.png)
 
 ## 实现
-因此基于上面的分析使用下面的代码来做demo。
+因此基于上面的分析使用下面的代码来做demo。css3transform进行实质的target css style更新。
 ```vue
 <template>
     <div style="overflow:hidden;">
