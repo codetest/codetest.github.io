@@ -127,6 +127,9 @@ PhyTouch是由腾讯开发的一个触碰滑动管理库。具体可以参见 [P
 </style>
 ```
 
+效果如下：
+![DemoPages](/images/PhyTouchTest/Source5.png)
+
 ## repo
 完整的demo repo可以参见[PhyTouchTest](https://github.com/codetest/PhyTouchTest)
 
