@@ -1,10 +1,10 @@
 # 测试使用PhyTouch
-PhyTouch是由腾讯开发的一个触碰滑动管理库。具体可以参见https://github.com/AlloyTeam/PhyTouch
+PhyTouch是由腾讯开发的一个触碰滑动管理库。具体可以参见 [PhyTouch GitHub](https://github.com/AlloyTeam/PhyTouch)
 ## 缘由
 在研究一些H5动画案例的时候，PhyTouch被用上了，而且体验还是挺不错的。因此就测试使用一下。这个测试使用是基于vue+typescript的（typescript是大势所趋，就用这个了）。
 
 ## 调研
-我是参照http://alloyteam.github.io/PhyTouch/example/simple.html 写的一个demo，做一个在页面中部滚动的列表。
+我是参照[PhyTouch Simple](http://alloyteam.github.io/PhyTouch/example/simple.html)写的一个demo，做一个在页面中部滚动的列表。
 ![PhyTouch simple](images/PhyTouchTest/PhyTouch-Simple.png)
 
 可以通过查看上面的源码来看看页面结构。一个wrapper包住scroller,里面是一个列表。scroller有一个transform属性，但overflow-y没有scroll属性。
@@ -13,7 +13,7 @@ PhyTouch是由腾讯开发的一个触碰滑动管理库。具体可以参见htt
 当我们滑动页面的时候，再次看页面变化。scroller的transform值发生变化。而scroller也没有y轴的scroll属性，因此可以推断是通过检测滑动变化更新transofrm属性达到滑动的效果。
 ![Source2](images/PhyTouchTest/Source2.png)
 
-我们再看看https://github.com/AlloyTeam/PhyTouch/blob/master/example/simple.html 的js部分。
+我们再看看[PhyTouch Simple](http://alloyteam.github.io/PhyTouch/example/simple.html) 的js部分。
 ```js
     <script>
         var target = document.querySelector("#scroller");
