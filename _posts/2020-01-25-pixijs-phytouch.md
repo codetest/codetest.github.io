@@ -35,3 +35,6 @@
         });
         this.instance.$el.appendChild(this.app.view)
 ```
+## 触碰事件响应
+
+[回到主页](https://codetest.github.io)
