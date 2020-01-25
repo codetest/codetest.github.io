@@ -36,5 +36,22 @@
         this.instance.$el.appendChild(this.app.view)
 ```
 ## 触碰事件响应
+需要对id为cavans的div进行触碰绑定，
+```typescript
+        this.touch = new PhyTouch({
+            touch:"#canvas",
+            vertical: false,
+            property: "translateX",
+            value: this.app.stage.x,
+            step: 1,
+            max: 0,
+            min: this.minWidth,
+        })
+```
+这里需要注意的是需要定义好value这个位置的初始值，比如前面需要绑定触碰，根据设计需要到某个位置解除绑定显示一些动画，然后再继续绑定触碰。但是在PhyTouch的库里面没有提供解绑定的接口，可以看这个[issue](https://github.com/AlloyTeam/PhyTouch/issues/63)(到现在还没有merge，真是。。。)因此就直接基于PhyTouch现有代码进行修改，添加解绑定接口。具体可以参看[PhyTouchExtenstion.js](https://github.com/codetest/pixijs-phytouch/blob/master/src/model/PhyTouchExtend.js#L135-140)。在触碰绑定的时候主要看两个接口change和animationEnd，根据回调得到的value更新app.stage.x达到移动的效果(享受丝滑的效果)。
+
+具体可以参考[Pixi-PhyTouch](https://github.com/codetest/pixijs-phytouch)。这个例子里面先移动到第一个图的中部位置，然后停止接受触碰，5秒后重新接受触碰。下面是效果图。
+![Demo](/images/PixiJs-PhyTouch/Demo.png)
+
 
 [回到主页](https://codetest.github.io)
