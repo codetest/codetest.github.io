@@ -87,4 +87,11 @@ defineReactive(obj, "a", obj["a"])
 obj.a
 obj.a = 9
 obj.a
+
+//输出如下
+/*
+get value 5
+new value 9
+get value 9
+*/
 ```
