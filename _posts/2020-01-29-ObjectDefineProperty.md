@@ -60,3 +60,31 @@ If a descriptor has neither of value, writable, get and set keys, it is treated 
 ```
 如果configurable没有定义，那么对应的属性不能出行定义或者删除，以下是一个例子。
 ![Definition1](/images/defineProperty/Definition1.png)
+如果configurable为true，那么问题就可以得到解决。
+
+## vue中的数据变化
+vue中当数据发生变化时，需要变化视图。那么就需要知道，什么时候发生变化，和通知谁更新视图。那么我们就可以通过Access Descriptor达到这个目的。以下是一个实例。
+```typescript
+function defineReactive(obj, key, val){
+	Object.defineProperty(obj, key, {
+		configurable: true,
+		enummerable: true,
+		get: () => {
+            // 此处收集依赖
+			console.log("get value", val)
+			return val;
+		},
+		set: (newVal) => {
+            // 此处通知更新变化
+			console.log("new value", newVal)
+			val = newVal;
+		}
+	})
+}
+
+var obj = {a: 5}
+defineReactive(obj, "a", obj["a"])
+obj.a
+obj.a = 9
+obj.a
+```
