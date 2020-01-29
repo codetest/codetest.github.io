@@ -52,9 +52,11 @@ ThisType定义
 interface ThisType<T> { }
 ```
 
-根据MDN的文档，Descriptor分为Data Descriptor和Access Descriptor。两者共同拥有configurable（propety是否可以被删除）和enumerable（for循环中可否出现）属性。Data Descriptor拥有: value和writable属性。Access Descriptor拥有get和set两个函数。两者的冲突关系处理如下。
+根据MDN的文档，Descriptor分为Data Descriptor和Access Descriptor。两者共同拥有configurable（propety是否可以被删除，重新修改？）和enumerable（for循环中可否出现）属性。Data Descriptor拥有: value和writable属性。Access Descriptor拥有get和set两个函数。两者的冲突关系处理如下。
 ```typescript
 /*
 If a descriptor has neither of value, writable, get and set keys, it is treated as a data descriptor. If a descriptor has both value or writable and get or set keys, an exception is thrown.
 */
 ```
+如果configurable没有定义，那么对应的属性不能出行定义或者删除，以下是一个例子。
+![Definition1](/images/defineProperty/Definition1.png)
