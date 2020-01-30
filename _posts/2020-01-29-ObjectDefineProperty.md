@@ -119,5 +119,11 @@ var app = new Vue({
 ![Callstack1](/images/defineProperty/Callstack1.png)
 从堆栈看到，在装载和渲染视图的时候就获取了一下message字段。然后我们在看下其中的一下匿名函数。
 ![Callstack2](/images/defineProperty/Callstack2.png)
-在这里面的匿名函数，调用了message字段。我们看一下这个匿名函数是怎么生成的。
+在这里面的匿名函数，调用了message字段。上面的_c就是createElement（创建vnode用的）。我们看一下这个匿名函数是怎么生成的。
+![Callstack3](/images/defineProperty/Callstack3.png)
+它是在解析模板的时候，将模板编译为一个函数。里面具体再看的的时候还可以看到有对函数进行缓存的做法。解析之后得到函数的字符串形式。
+```javascript
+"with(this){return _c('div',{attrs:{"id":"app"}},[_v("\n"+_s(message)+"\n")])}"
+```
+
 
