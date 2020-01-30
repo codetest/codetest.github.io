@@ -62,7 +62,7 @@ If a descriptor has neither of value, writable, get and set keys, it is treated 
 ![Definition1](/images/defineProperty/Definition1.png)
 如果configurable为true，那么问题就可以得到解决。
 
-## vue中的数据变化
+## 检测数据变化
 vue中当数据发生变化时，需要变化视图。那么就需要知道，什么时候发生变化，和通知谁更新视图。那么我们就可以通过Access Descriptor达到这个目的。以下是一个实例。
 ```typescript
 function defineReactive(obj, key, val){
@@ -96,3 +96,23 @@ get value 9
 */
 ```
 然而，在vue当中并没有那么简单，如果判定obj[key]是一个Object，那么就需要递归下去。在对object赋值的时候也要重新做监控，之前的监控就要去掉。果是一个Array就需要监控数组相关操作，元素变化就不能检测了。
+
+## vue 中的实际使用
+我们通过以下代码来调试以下vue具体怎么实现数据驱动变化的。
+```html
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<div id="app">
+{{message}}
+</div>
+<script type="text/javascript">
+var app = new Vue({
+  el: '#app',
+  data: {
+    message: 'Hello Vue!'
+  }
+})
+</script>
+```
+通过打断点，我们得到以下的调用堆栈。
+![Callstack](/images/defineProperty/Callstack.png)
+由此我们可以看到，vue是在初始化的时候就对data进行defineProperty
