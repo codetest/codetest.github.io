@@ -115,4 +115,9 @@ var app = new Vue({
 ```
 通过打断点，我们得到以下的调用堆栈。
 ![Callstack](/images/defineProperty/Callstack.png)
-由此我们可以看到，vue是在初始化的时候就对data进行defineProperty
+由此我们可以看到，vue是在初始化的时候就对data进行defineProperty。以下我们看一下是怎么样进行依赖收集的，在get函数打一个断点。
+![Callstack1](/images/defineProperty/Callstack1.png)
+从堆栈看到，在装载和渲染视图的时候就获取了一下message字段。然后我们在看下其中的一下匿名函数。
+![Callstack2](/images/defineProperty/Callstack2.png)
+在这里面的匿名函数，调用了message字段。我们看一下这个匿名函数是怎么生成的。
+
