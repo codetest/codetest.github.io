@@ -176,3 +176,21 @@ var app = new Vue({
 "with(this){return _c('div',{attrs:{"id":"app"}},[_c('div',[_v("\n"+_s(message)+"\n")]),_v(" "),_c('div',[_v("\n"+_s(message)+"\n")])])}"
 ```
 这个ast非常厉害~
+在get的时候，实际上会有一个根据id的去重机制
+```javascript
+  /**
+   * Add a dependency to this directive.
+   */
+  Watcher.prototype.addDep = function addDep (dep) {
+    var id = dep.id;
+    if (!this.newDepIds.has(id)) {
+      this.newDepIds.add(id);
+      this.newDeps.push(dep);
+      if (!this.depIds.has(id)) {
+        dep.addSub(this);
+      }
+    }
+  };
+```
+
+而在set的时候就是通过上面的Watcher调用update函数，达到视图更新的目的。
