@@ -151,3 +151,28 @@ var app = new Vue({
 ```
 这些函数在初始化的时候已经绑定到Vue的prototype里面了。
 ![Callstack4](/images/defineProperty/Callstack4.png)
+在这里顺便修改一下模板的结构
+```html
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<div id="app">
+<div>
+{{message}}
+</div>
+<div>
+{{message}}
+</div>
+</div>
+<script type="text/javascript">
+var app = new Vue({
+  el: '#app',
+  data: {
+    message: 'Hello Vue!'
+  }
+})
+</script>
+```
+会响应更新生成以下的函数内容。
+```javascript
+"with(this){return _c('div',{attrs:{"id":"app"}},[_c('div',[_v("\n"+_s(message)+"\n")]),_v(" "),_c('div',[_v("\n"+_s(message)+"\n")])])}"
+```
+这个ast非常厉害~
