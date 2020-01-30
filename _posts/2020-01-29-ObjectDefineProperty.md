@@ -194,3 +194,5 @@ var app = new Vue({
 ```
 
 而在set的时候就是通过上面的Watcher调用update函数，达到视图更新的目的。
+
+[回到主页](https://codetest.github.io)
