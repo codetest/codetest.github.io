@@ -120,10 +120,34 @@ var app = new Vue({
 从堆栈看到，在装载和渲染视图的时候就获取了一下message字段。然后我们在看下其中的一下匿名函数。
 ![Callstack2](/images/defineProperty/Callstack2.png)
 在这里面的匿名函数，调用了message字段。上面的_c就是createElement（创建vnode用的）。我们看一下这个匿名函数是怎么生成的。
-![Callstack3](/images/defineProperty/Callstack3.png)
+![Callstack3](/images/defineProperty/Callstatck3.png)
 它是在解析模板的时候，将模板编译为一个函数。里面具体再看的的时候还可以看到有对函数进行缓存的做法。解析之后得到函数的字符串形式。
 ```javascript
 "with(this){return _c('div',{attrs:{"id":"app"}},[_v("\n"+_s(message)+"\n")])}"
 ```
+后面通过new Function的方法实现一个函数返回设定为render.里面的_s和_v的意义有下面定义
+```javascript
+  /*  */
 
-
+  function installRenderHelpers (target) {
+    target._o = markOnce;
+    target._n = toNumber;
+    target._s = toString;
+    target._l = renderList;
+    target._t = renderSlot;
+    target._q = looseEqual;
+    target._i = looseIndexOf;
+    target._m = renderStatic;
+    target._f = resolveFilter;
+    target._k = checkKeyCodes;
+    target._b = bindObjectProps;
+    target._v = createTextVNode;
+    target._e = createEmptyVNode;
+    target._u = resolveScopedSlots;
+    target._g = bindObjectListeners;
+    target._d = bindDynamicKeys;
+    target._p = prependModifier;
+  }
+```
+这些函数在初始化的时候已经绑定到Vue的prototype里面了。
+![Callstack4](/images/defineProperty/Callstack4.png)
