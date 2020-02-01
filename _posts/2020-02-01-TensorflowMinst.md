@@ -17,7 +17,7 @@
             correct = correct + 1
     print(correct)
  ```
- 这个代码在我本机跑得倒的correct是95，其实还是可以的。
+ 这个代码在我本机跑得倒的correct是96，其实还是可以的。
  
  ## 测试真实图片
 [readMNIST](https://github.com/dragen1860/Deep-Learning-with-TensorFlow-book/blob/master/ch03/readMNIST.py)提供了抽取测试图片的方法。上面的x是按照下面的处理经过归一化的。加入有一张满足28 * 28大小的图片，怎么进行识别？
@@ -25,3 +25,44 @@
 x = tf.convert_to_tensor(x, dtype=tf.float32) / 255.
 ```
 而我们做灰度化就只需要按照加权平均的方法实现f(i,j)=0.30R(i,j)+0.59G(i,j)+0.11B(i,j)。
+以下是转化代码
+```python
+from PIL import Image, ImageDraw
+def loadAsNormalizedGrayedImage(file):
+    # 加权平均法 + PIL 进行灰度化
+    img = Image.open(file)
+    pixel = img.load()  # cv2的图像读取后可以直接进行操作，而Image打开的图片需要加载
+    w, h = img.size
+    data = [[0 for x in range(h)] for x in range(w)]
+    for i in range(img.size[0]):
+        for j in range(img.size[1]):
+            # Y = 0．3R + 0．59G + 0．11B
+            # 通过Image格式打开的图片，像素格式为 RGB，数据需要逆转以下。
+            data[j][i] = (0.3 * pixel[i, j][0] + 0.11 * pixel[i, j][2] + 0.59 * pixel[i, j][1]) / 255.    
+    return data
+```
+根据上面的[readMNIST](https://github.com/dragen1860/Deep-Learning-with-TensorFlow-book/blob/master/ch03/readMNIST.py)数据的时候，只需要简单读值就可以了，具体代码如下
+```python
+from PIL import Image, ImageDraw
+def loadAsNormalizedGrayedImage(file):
+    # 加权平均法 + PIL 进行灰度化
+    img = Image.open(file)
+    pixel = img.load()  # cv2的图像读取后可以直接进行操作，而Image打开的图片需要加载
+    w, h = img.size
+    data = [[0 for x in range(h)] for x in range(w)]
+    for i in range(img.size[0]):
+        for j in range(img.size[1]):
+            # Y = 0．3R + 0．59G + 0．11B
+            # 通过Image格式打开的图片
+            data[i][j] = pixel[j, i] / 255.
+    return data
+```
+
+另外为了方便运行，需要把模型序列化。我们可以查看[Model的文档](https://tensorflow.google.cn/api_docs/python/tf/keras/Model?hl=en)可以看到有load_weights和save_weights的接口。因此在训练完模型之后可以见到调用model.save_weights("model.weights")来序列话，测试时只需要重新定义之前的网络模型，然后加载权重数据即可
+```python
+model = keras.Sequential([ 
+    layers.Dense(512, activation='relu'),
+    layers.Dense(256, activation='relu'),
+    layers.Dense(10)])
+model.load_weights("model.weights")
+```
