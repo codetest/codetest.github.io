@@ -1,5 +1,5 @@
-# Tensorflow学习
-在网上发现一个比较好的tensorflow和deeplearning的[学习资源](https://github.com/dragen1860/Deep-Learning-with-TensorFlow-book)。在现在学习能力是很重要的，于是跟着学，跟着写代码。
+# Tensorflow求导
+在网上发现一个比较好的tensorflow和deeplearning的[学习资源](https://github.com/dragen1860/Deep-Learning-with-TensorFlow-book)。在现在学习能力是很重要的，于是跟着学，跟着写代码。当然学习需要文档，可以参看[API文档](https://tensorflow.google.cn/api_docs/)（没有被墙）。求导的文旦可以参看[求导](https://tensorflow.google.cn/api_docs/python/tf/GradientTape)
 
 ## 求导数
 比如我们有一个函数 y = a * x^5 + b * x^2 + c，有基础的都可以求出导数函数为y' = 5 * a * x^4 + 2 * b * x。 对于x在2出的导数值为80a + 4b。
