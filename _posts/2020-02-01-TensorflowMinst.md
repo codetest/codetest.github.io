@@ -82,8 +82,8 @@ model.load_weights("model.weights")
 0
 ```
 自己手写用mspaint构造的测试集
-![img](/images/MNIST/n0.png)![img](/images/MNIST/n1.png)![img](/images/MNIST/n2.png)![img](/images/MNIST/n3.png)![img](/images/MNIST/n4.png)![img](/images/MNIST/n5.png)![img](/images/MNIST/n6.png)![img](/images/MNIST/n7.png)![img](/images/MNIST/n8.png)![img](/images/MNIST/n9.png)![img](/images/MNIST/n10.png)
-得到的结果为，只有5个识别对了
+![img](/images/MNIST/n0.png)![img](/images/MNIST/n1.png)![img](/images/MNIST/n2.png)![img](/images/MNIST/n3.png)![img](/images/MNIST/n4.png)![img](/images/MNIST/n5.png)![img](/images/MNIST/n6.png)![img](/images/MNIST/n7.png)![img](/images/MNIST/n8.png)![img](/images/MNIST/n9.png)
+得到的结果为，只有5个识别对了，当然这个数据集有一个特点就是像素点非黑即白，线的宽度一致。另外和线性模型的有限性有关。
 ```python
 0
 6
@@ -95,4 +95,41 @@ model.load_weights("model.weights")
 2
 8
 3
+```
+完整代码如下
+```python
+import  tensorflow as tf
+from    tensorflow import keras
+from    tensorflow.keras import layers, optimizers, datasets
+import numpy as np
+model = keras.Sequential([ 
+    layers.Dense(512, activation='relu'),
+    layers.Dense(256, activation='relu'),
+    layers.Dense(10)])
+
+
+from PIL import Image, ImageDraw
+def loadAsNormalizedGrayedImage(file):
+    # 加权平均法 + PIL 进行灰度化
+    img = Image.open(file)
+    pixel = img.load()  # cv2的图像读取后可以直接进行操作，而Image打开的图片需要加载
+    w, h = img.size
+    data = [[0 for x in range(h)] for x in range(w)]
+    for i in range(img.size[0]):
+        for j in range(img.size[1]):
+            # Y = 0．3R + 0．59G + 0．11B
+            # 通过Image格式打开的图片，像素格式为 RGB
+            data[j][i] = (0.3 * pixel[i, j][0] + 0.11 * pixel[i, j][2] + 0.59 * pixel[i, j][1]) / 255.    
+            # data[i][j] = pixel[j, i] / 255.
+    return data
+
+if __name__ == '__main__':
+    model.load_weights("model.weights")
+    #model.save_weights("model.weights")
+    for i in range(10):
+        img = loadAsNormalizedGrayedImage("n" + str(i) + ".png")
+        test_x = tf.reshape(img, (-1, 28*28))
+        out = model(test_x)
+        actual = (np.argmax((out[0]).numpy()))
+        print(actual)
 ```
