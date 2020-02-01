@@ -20,7 +20,8 @@
  这个代码在我本机跑得倒的correct是95，其实还是可以的。
  
  ## 测试真实图片
- 上面的x是按照下面的处理经过归一化的。加入有一张满足28 * 28大小的图片，怎么进行识别？
+[readMNIST](https://github.com/dragen1860/Deep-Learning-with-TensorFlow-book/blob/master/ch03/readMNIST.py)提供了抽取测试图片的方法。上面的x是按照下面的处理经过归一化的。加入有一张满足28 * 28大小的图片，怎么进行识别？
 ```python
 x = tf.convert_to_tensor(x, dtype=tf.float32) / 255.
 ```
+而我们做灰度化就只需要按照加权平均的方法实现f(i,j)=0.30R(i,j)+0.59G(i,j)+0.11B(i,j)。
