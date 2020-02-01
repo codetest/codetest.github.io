@@ -67,7 +67,7 @@ model = keras.Sequential([
 model.load_weights("model.weights")
 ```
 对于以下10个图片测试结果分别为
-![img](/images/MNIST/1.png)![img](/images/MNIST/1.png)
+![img](/images/MNIST/0.png)![img](/images/MNIST/1.png)![img](/images/MNIST/2.png)![img](/images/MNIST/3.png)![img](/images/MNIST/4.png)![img](/images/MNIST/5.png)![img](/images/MNIST/6.png)![img](/images/MNIST/7.png)![img](/images/MNIST/8.png)![img](/images/MNIST/9.png)![img](/images/MNIST/10.png)
 ```python
 7
 2
