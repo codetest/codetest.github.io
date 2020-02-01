@@ -42,7 +42,8 @@ with tf.GradientTape(persistent = True) as tape: # 构建函数，persistent = T
 ## 多元函数求导
 比如我们有一个三元函数 z = 5 * x^7 - 9 * y^4，那么得到在x = 2, y = 3处的值为 dz/dx = 35 * x^6 = 2240, dz/dy = -36 * y^3 = -972
 实现如下
-```pythonimport tensorflow as tf
+```python
+import tensorflow as tf
 import tensorflow as tf
 x = tf.constant(2.)
 y = tf.constant(3.)
