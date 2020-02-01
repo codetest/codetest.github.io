@@ -1,4 +1,4 @@
-# Tensorflow读MINST数据集建模
+# TensorflowMINST数据集建模
 具体的建模代码看[这里](https://github.com/dragen1860/Deep-Learning-with-TensorFlow-book/blob/master/ch03/main.py) 然而里面只是提供了console形式的建模过程。 以下对这个程序进行扩展，能够做实际的识别工作。具体的运行细节就不解释了，都是高级接口，都弄好了。
 
 ## 评估测试数据
