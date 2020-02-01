@@ -10,12 +10,31 @@ b = tf.constant(3.)
 c = tf.constant(4.)
 x = tf.constant(2.)
 with tf.GradientTape() as tape: # 构建函数
-  tape.watch([x]) # 将x视作变量
+  tape.watch(x) # 将x视作变量，类似tf.Variable
   y = a * x** 5 + b * x ** 2 + c # 建立表达式
-  [dy_dx] = tape.gradient(y, [x]) # 得到输出
+  dy_dx = tape.gradient(y, x) # 得到输出
   print(dy_dx)
 
 # 得到输出如下
 # tf.Tensor(172.0, shape=(), dtype=float32)
 # 80 * 2 + 4 * 3 = 172
+```
+同时我们也会疑问，这只是求一阶导数，如果求二阶导数呢？ 比如上面表达式的二阶导数为y'' = 20 * a * x ^ 3 + 2 * b，在x = 2的二阶导数值为20 * 2 * 2^3 + 2 * 3
+```pythonimport tensorflow as tf
+import tensorflow as tf
+a = tf.constant(2.)
+b = tf.constant(3.)
+c = tf.constant(4.)
+x = tf.constant(2.)
+with tf.GradientTape(persistent = True) as tape: # 构建函数，persistent = True是为了多次执行gradient函数
+  tape.watch(x) # 将x视作变量
+  y = a * x** 5 + b * x ** 2 + c # 建立表达式
+  dy_dx = tape.gradient(y, x) # 得到输出
+  dy_dx_dx = tape.gradient(dy_dx, x)
+  print(dy_dx_dx)
+  print(dy_dx)
+
+# 得到输出如下
+# tf.Tensor(326.0, shape=(), dtype=float32) 
+# tf.Tensor(172.0, shape=(), dtype=float32)
 ```
