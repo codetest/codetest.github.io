@@ -58,3 +58,6 @@ with tf.GradientTape(persistent = True) as tape: # 构建函数
 # [<tf.Tensor: id=21, shape=(), dtype=float32, numpy=2240.0>]
 # [<tf.Tensor: id=42, shape=(), dtype=float32, numpy=-972.0>]
 ```
+具体的求导函数可以参考[文档](https://tensorflow.google.cn/api_docs/python/tf/GradientTape#gradient)
+
+[回到主页](https://codetest.github.io)
