@@ -1,201 +1,372 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
-	<head>
-		<meta charset = "UTF-8">
-		<title>全国疫情情况2020-02-08</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-		<script src="echarts.min.js"></script>
-		<script src="china.js"></script>
-	</head>
+    <head>
+        <meta charset = "UTF-8">
+        <title>全国疫情情况2020-02-08</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <script src="echarts.min.js"></script>
+        <script src="china.js"></script>
+    </head>
 </html>
 <body>
-	<div id="map" style="width:1024px;height:1080px;">
-	</div>
-	<script type="text/javascript">
-		var data = 
-		[
-		  {
-			"name": "福建",
-			"value": 250
-		  },
-		  {
-			"name": "湖北",
-			"value": 27100
-		  },
-		  {
-			"name": "上海",
-			"value": 293
-		  },
-		  {
-			"name": "黑龙江",
-			"value": 307
-		  },
-		  {
-			"name": "四川",
-			"value": 386
-		  },
-		  {
-			"name": "江苏",
-			"value": 468
-		  },
-		  {
-			"name": "陕西",
-			"value": 208
-		  },
-		  {
-			"name": "广东",
-			"value": 1120
-		  },
-		  {
-			"name": "河南",
-			"value": 1033
-		  },
-		  {
-			"name": "浙江",
-			"value": 1075
-		  },
-		  {
-			"name": "北京",
-			"value": 326
-		  },
-		  {
-			"name": "天津",
-			"value": 90
-		  },
-		  {
-			"name": "河北",
-			"value": 206
-		  },
-		  {
-			"name": "山东",
-			"value": 435
-		  },
-		  {
-			"name": "江西",
-			"value": 740
-		  },
-		  {
-			"name": "安徽",
-			"value": 779
-		  },
-		  {
-			"name": "湖南",
-			"value": 838
-		  },
-		  {
-			"name": "吉林",
-			"value": 78
-		  },
-		  {
-			"name": "贵州",
-			"value": 96
-		  },
-		  {
-			"name": "内蒙古",
-			"value": 54
-		  },
-		  {
-			"name": "海南",
-			"value": 128
-		  },
-		  {
-			"name": "宁夏",
-			"value": 45
-		  },
-		  {
-			"name": "新疆",
-			"value": 45
-		  },
-		  {
-			"name": "广西",
-			"value": 195
-		  },
-		  {
-			"name": "云南",
-			"value": 140
-		  },
-		  {
-			"name": "重庆",
-			"value": 446
-		  },
-		  {
-			"name": "山西",
-			"value": 115
-		  },
-		  {
-			"name": "甘肃",
-			"value": 79
-		  },
-		  {
-			"name": "辽宁",
-			"value": 105
-		  },
-		  {
-			"name": "台湾",
-			"value": 17
-		  },
-		  {
-			"name": "香港",
-			"value": 26
-		  },
-		  {
-			"name": "青海",
-			"value": 18
-		  },
-		  {
-			"name": "澳门",
-			"value": 10
-		  },
-		  {
-			"name": "西藏",
-			"value": 1
-		  }
-		]
-		
-		var mapChart = echarts.init(document.getElementById('map'))
-		mapChart.setOption(option = {
-			title: {
-				text: "全国新型肺炎情况",
-				subtext: "数据更新至2020-02-09 0时",
-				sublink: "https://news.mtime.com"
-			},
-			tooltip: {
-				trigger: 'item',
-				formatter: '{b}<br />确诊人数：{c}'
-			},
-			toolbox: {
-				show: true,
-				orient: "vertical",
-				left: "right",
-				top: "center",
-				feature: {
-					dataView: {readonly: false},
-					restore: {},
-					saveAsImage: {}
-				}
-			},
-			visualMap: {
-				min: 0,
-				max: 30000,
-				text: ['高', '低'],
-				realtime: false,
-				calculable: true,
-				inRange: {
-					color: ['yellow', 'orangered', 'red']
-				}
-			},
-			series: [
-				{
-					name: "全国新型肺炎情况",
-					type: "map",
-					mapType: "china",
-					label: {
-						show: true,
-					},
-					data: data
-				}
-			]
-		})
-	</script>
+    <div id="map" style="width:1024px;height:1080px;">
+    </div>
+    <script type="text/javascript">
+        var data = 
+[
+  {
+    "name": "福建",
+    "value": [
+      250,
+      0,
+      27,
+      2
+    ]
+  },
+  {
+    "name": "湖北",
+    "value": [
+      27100,
+      780,
+      1439,
+      0
+    ]
+  },
+  {
+    "name": "上海",
+    "value": [
+      293,
+      1,
+      44,
+      0
+    ]
+  },
+  {
+    "name": "黑龙江",
+    "value": [
+      307,
+      6,
+      14,
+      1
+    ]
+  },
+  {
+    "name": "四川",
+    "value": [
+      386,
+      1,
+      65,
+      2
+    ]
+  },
+  {
+    "name": "江苏",
+    "value": [
+      468,
+      0,
+      70,
+      0
+    ]
+  },
+  {
+    "name": "陕西",
+    "value": [
+      208,
+      0,
+      21,
+      0
+    ]
+  },
+  {
+    "name": "广东",
+    "value": [
+      1120,
+      1,
+      127,
+      1
+    ]
+  },
+  {
+    "name": "河南",
+    "value": [
+      1033,
+      6,
+      131,
+      0
+    ]
+  },
+  {
+    "name": "浙江",
+    "value": [
+      1075,
+      0,
+      185,
+      0
+    ]
+  },
+  {
+    "name": "北京",
+    "value": [
+      326,
+      2,
+      37,
+      0
+    ]
+  },
+  {
+    "name": "天津",
+    "value": [
+      90,
+      1,
+      4,
+      0
+    ]
+  },
+  {
+    "name": "河北",
+    "value": [
+      206,
+      2,
+      30,
+      0
+    ]
+  },
+  {
+    "name": "山东",
+    "value": [
+      435,
+      1,
+      50,
+      0
+    ]
+  },
+  {
+    "name": "江西",
+    "value": [
+      740,
+      0,
+      72,
+      0
+    ]
+  },
+  {
+    "name": "安徽",
+    "value": [
+      779,
+      1,
+      72,
+      4
+    ]
+  },
+  {
+    "name": "湖南",
+    "value": [
+      838,
+      1,
+      159,
+      0
+    ]
+  },
+  {
+    "name": "吉林",
+    "value": [
+      78,
+      1,
+      5,
+      1
+    ]
+  },
+  {
+    "name": "贵州",
+    "value": [
+      96,
+      1,
+      7,
+      0
+    ]
+  },
+  {
+    "name": "内蒙古",
+    "value": [
+      54,
+      0,
+      5,
+      0
+    ]
+  },
+  {
+    "name": "海南",
+    "value": [
+      128,
+      2,
+      16,
+      0
+    ]
+  },
+  {
+    "name": "宁夏",
+    "value": [
+      45,
+      0,
+      13,
+      0
+    ]
+  },
+  {
+    "name": "新疆",
+    "value": [
+      45,
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "name": "广西",
+    "value": [
+      195,
+      1,
+      18,
+      0
+    ]
+  },
+  {
+    "name": "云南",
+    "value": [
+      140,
+      0,
+      17,
+      0
+    ]
+  },
+  {
+    "name": "重庆",
+    "value": [
+      446,
+      2,
+      39,
+      0
+    ]
+  },
+  {
+    "name": "山西",
+    "value": [
+      115,
+      0,
+      21,
+      0
+    ]
+  },
+  {
+    "name": "甘肃",
+    "value": [
+      79,
+      1,
+      12,
+      0
+    ]
+  },
+  {
+    "name": "辽宁",
+    "value": [
+      105,
+      0,
+      8,
+      0
+    ]
+  },
+  {
+    "name": "台湾",
+    "value": [
+      17,
+      0,
+      1,
+      0
+    ]
+  },
+  {
+    "name": "香港",
+    "value": [
+      26,
+      1,
+      0,
+      117
+    ]
+  },
+  {
+    "name": "青海",
+    "value": [
+      18,
+      0,
+      3,
+      0
+    ]
+  },
+  {
+    "name": "澳门",
+    "value": [
+      10,
+      0,
+      1,
+      0
+    ]
+  },
+  {
+    "name": "西藏",
+    "value": [
+      1,
+      0,
+      0,
+      0
+    ]
+  }
+]
+        
+        var mapChart = echarts.init(document.getElementById('map'))
+        mapChart.setOption(option = {
+            title: {
+                text: "全国新型肺炎情况",
+                subtext: "数据更新至2020-02-09 0时",
+                sublink: "https://news.mtime.com"
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: function(params){return params.name + "<br />确诊人数：" + params.data.value[0].toString() + "<br />死亡人数：" + params.data.value[1].toString() + "<br />治愈人数：" + params.data.value[2].toString() + "<br />疑似人数：" + params.data.value[3].toString()}
+            },
+            toolbox: {
+                show: true,
+                orient: "vertical",
+                left: "right",
+                top: "center",
+                feature: {
+                    dataView: {readonly: false},
+                    restore: {},
+                    saveAsImage: {}
+                }
+            },
+            visualMap: {
+                dimension: 0,
+                realtime: false,
+                pieces: [
+                    {min: 0, max: 99, label: '0-99', color: 'lightskyblue'},
+                    {min: 100, max: 499, label: '100-499', color: 'lightblue'},
+                    {min: 500, max: 999, label: '500-999', color: 'yellow'},
+                    {min: 1000, max: 5000, label: '1000-5000', color: 'orange'},
+                    {min: 5000, max: 30000, label: '5000-30000', color: 'red'},
+                ]
+            },
+            series: [
+                {
+                    name: "全国新型肺炎情况",
+                    type: "map",
+                    mapType: "china",
+                    label: {
+                        show: true,
+                    },
+                    data: data
+                }
+            ]
+        })
+    </script>
 </body>
