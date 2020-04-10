@@ -56,8 +56,34 @@ function updateDOMListeners (oldVnode, vnode) {
   target$1 = undefined;
 }
 ```
+
+而原生的事件注册在下面的代码
+```javascript
+    var handler = function (e) {
+      if (guardEvent(e)) {
+        if (this$1.replace) {
+          router.replace(location, noop);
+        } else {
+          router.push(location, noop);
+        }
+      }
+    };
+
+    var on = { click: guardEvent };
+    if (Array.isArray(this.event)) {
+      this.event.forEach(function (e) {
+        on[e] = handler;
+      });
+    } else {
+      on[this.event] = handler;
+    }
+```
 可以在updateDOMListeners打断点看到事件响应的覆盖逻辑。
 ![click event](/images/vue-router-view/clickevent.png)
+
+## router-view
+在响应点击事件的时候，需要查看怎么更新视图渲染。
+
 
 ## 源码附件
 ### router-link
