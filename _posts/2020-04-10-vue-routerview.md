@@ -56,6 +56,8 @@ function updateDOMListeners (oldVnode, vnode) {
   target$1 = undefined;
 }
 ```
+可以在updateDOMListeners打断点看到事件响应的覆盖逻辑。
+![click event](/images/vue-router-view/clickevent.png)
 
 ## 源码附件
 ### router-link
