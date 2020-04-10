@@ -82,8 +82,7 @@ function updateDOMListeners (oldVnode, vnode) {
 ![click event](/images/vue-router-view/clickevent.png)
 
 ## router-view
-在响应点击事件的时候，需要查看怎么更新视图渲染。
-
+在响应点击事件的时候，需要查看怎么更新视图渲染。在这个过程中，router会被更新，通过Vue.nexttick周期调用渲染函数。引起变化的就是router这个变量。最终通过构造函数将对应的组件VNode创建出来。
 
 ## 源码附件
 ### router-link
