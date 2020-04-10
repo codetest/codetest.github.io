@@ -5,6 +5,48 @@ router view和router link是常用的路由组件。现在做一下简要的分�
 先绕开视图渲染，直接看渲染结果。
 ![render result](/images/vue-router-view/router-view-test.png)
 
+router-link实质上会渲染为链接a，如果直接点击的话，默认是跳转页面或者跳转到页面的部分。然后点击效果来看不是这样，可以渲染出视图。因此router-link的点击事件被重写了。因此需要在javascript看一下href相关的操作，看到相关的函数如下。
+```javascript
+function getHash () {
+  // We can't use window.location.hash here because it's not
+  // consistent across browsers - Firefox will pre-decode it!
+  var href = window.location.href;
+  var index = href.indexOf('#');
+  // empty path
+  if (index < 0) { return '' }
+
+  href = href.slice(index + 1);
+  // decode the hash but not the search or hash
+  // as search(query) is already decoded
+  // https://github.com/vuejs/vue-router/issues/2708
+  var searchIndex = href.indexOf('?');
+  if (searchIndex < 0) {
+    var hashIndex = href.indexOf('#');
+    if (hashIndex > -1) {
+      href = decodeURI(href.slice(0, hashIndex)) + href.slice(hashIndex);
+    } else { href = decodeURI(href); }
+  } else {
+    href = decodeURI(href.slice(0, searchIndex)) + href.slice(searchIndex);
+  }
+
+  return href
+}
+```
+
+因此我们可以在getHash函数打断点，应该点击的时候会调用这个函数。从调用堆栈获得以下代码片段，guardEvent这个函数比较有意思，应该是判断是否关注的事件。
+```javascript
+    var handler = function (e) {
+      if (guardEvent(e)) {
+        if (this$1.replace) {
+          router.replace(location, noop);
+        } else {
+          router.push(location, noop);
+        }
+      }
+    };
+```
+
+
 ## 源码附件
 ### router-link
 ```javascript
