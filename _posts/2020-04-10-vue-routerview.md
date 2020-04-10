@@ -1,6 +1,10 @@
 # vue router view
 router view和router link是常用的路由组件。现在做一下简要的分析。可以参看代码[router-view-test](https://github.com/codetest/vue/tree/master/routerview-test)
 
+## 事件响应
+先绕开视图渲染，直接看渲染结果。
+![render result](/images/vue-router-view/router-view-test.png)
+
 ## 源码附件
 ### router-link
 ```javascript
