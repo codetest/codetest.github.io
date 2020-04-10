@@ -1,5 +1,5 @@
 # vue router view
-router view和router link是常用的路由组件。现在做一下简要的分析。
+router view和router link是常用的路由组件。现在做一下简要的分析。可以参看代码[router-view-test](https://github.com/codetest/vue/tree/master/routerview-test)
 
 ## 源码附件
 ### router-link
