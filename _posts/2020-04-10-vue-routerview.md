@@ -33,19 +33,29 @@ function getHash () {
 }
 ```
 
-因此我们可以在getHash函数打断点，应该点击的时候会调用这个函数。从调用堆栈获得以下代码片段，guardEvent这个函数比较有意思，应该是判断是否关注的事件。
+因此我们可以在getHash函数打断点，应该点击的时候会调用这个函数。从调用堆栈获得以下代码片段。
 ```javascript
-    var handler = function (e) {
-      if (guardEvent(e)) {
-        if (this$1.replace) {
-          router.replace(location, noop);
-        } else {
-          router.push(location, noop);
-        }
-      }
-    };
+function add$1 (
+  name,
+  handler,
+  capture,
+  passive
+) 
 ```
-
+在看以下add$1的引用，因此在这里面会更新监听事件。
+```javascript
+function updateDOMListeners (oldVnode, vnode) {
+  if (isUndef(oldVnode.data.on) && isUndef(vnode.data.on)) {
+    return
+  }
+  var on = vnode.data.on || {};
+  var oldOn = oldVnode.data.on || {};
+  target$1 = vnode.elm;
+  normalizeEvents(on);
+  updateListeners(on, oldOn, add$1, remove$2, createOnceHandler$1, vnode.context);
+  target$1 = undefined;
+}
+```
 
 ## 源码附件
 ### router-link
