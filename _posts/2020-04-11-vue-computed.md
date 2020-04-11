@@ -35,6 +35,10 @@ function initComputed (vm, computed) {
   }
 }
 ```
+创建watcher的时候，lazy值赋给了dirty。对于cmoputed而言，它第一次被get的话，会被evalute一遍。
+```javascript
+  this.dirty = this.lazy; // for lazy watchers
+```
 
 这里可以看到computed的get函数被注入到watcher里面，同时也定义了computed的get属性被重新定义
 ```javascript
