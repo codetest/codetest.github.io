@@ -3,7 +3,7 @@
 vue的computed函数有缓存效果，先看一下这个怎么实现的， 缓存什么时候更新的。
 
 ## computed的初始化
-在vue初始化的时候会调用下面的代码，对computed进行初始化，
+在vue初始化的时候会调用下面的代码，对computed进行初始化，都添加了对应的watcher。
 ```javascript
 function initComputed (vm, computed) {
   // $flow-disable-line
@@ -35,3 +35,4 @@ function initComputed (vm, computed) {
   }
 }
 ```
+
