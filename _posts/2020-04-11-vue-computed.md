@@ -90,5 +90,5 @@ function initComputed (vm, computed) {
   this.dirty = this.lazy; // for lazy watchers
 ```
 
-
+当computed的第一次被get的时候，对应的data在get的时候会把这个watcher添加到data的dependencies，当data有变化的时候，watcher只会标记dirty为true。在nextTick的时候，重新渲染，调用get函数重新获取数据。
 
