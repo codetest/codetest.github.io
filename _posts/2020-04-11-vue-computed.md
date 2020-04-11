@@ -1,6 +1,6 @@
 # vue computed解析
 
-vue的computed函数有缓存效果，先看一下这个怎么实现的， 缓存什么时候更新的。
+vue的computed函数有缓存效果，先看一下这个怎么实现的， 缓存什么时候更新的。示例代码在[Vue-Computed](https://github.com/codetest/vue/tree/master/computed-test)
 
 ## computed的初始化
 初始化的时候会先覆盖computed中的key的get进行重新定义。
